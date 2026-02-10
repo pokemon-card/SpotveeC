@@ -296,7 +296,6 @@ jobs:
         echo "VTEXT=${{ steps.vt-openspotify.outputs.analysis }}" >> $GITHUB_ENV
         rm -f "Build Components/OpenSpotifySafariExtension.zip"
 
-
     - name: Read Spotify information from vanilla .ipa
       run: |
         cp "${{ env.spotifypath }}" "Build Components/SpotifyAnylises.zip"
