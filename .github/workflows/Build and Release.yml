@@ -737,7 +737,7 @@ jobs:
                   "version": "Commit \($EXTCOMMIT)",
                   "authors": "Whoeevee",
                   "url": "https://github.com/whoeevee/OpenSpotifySafariExtension"
-              ],    
+              },    
               {
                   "item": "Orion Runtime",
                   "version": "v\($ORIONVERSION)",
