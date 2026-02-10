@@ -732,6 +732,12 @@ jobs:
                   "url": "https://github.com/${{ env.EEVEEREPO }}"
               },
               {
+                  "item": "OpenSpotifySafariExtension",
+                  "version": "Commit \($EXTCOMMIT)",
+                  "authors": "Whoeevee",
+                  "url": "https://github.com/whoeevee/OpenSpotifySafariExtension"
+              ],    
+              {
                   "item": "Orion Runtime",
                   "version": "v\($ORIONVERSION)",
                   "authors": "Theos Team",
