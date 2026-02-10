@@ -700,6 +700,7 @@ jobs:
            --arg VANILLASPOTIFYVERSION "${{ env.VANILLASPOTIFYVERSION }}" \
            --arg MINVERSION "${{ env.MIN_IOS_VERSION }}" \
            --arg EEVEEVERSIONNAME "${{ env.EEVEEVERSIONNAME }}" \
+           --arg EXTCOMMIT "${{ env.EXTCOMMIT }}" \
            --arg ORIONVERSION "${{ env.ORIONVERSION }}" \
            --arg SWIFTPROTOBUFVERSION "${{ env.SWIFTPROTOBUFVERSION }}" \
            '
