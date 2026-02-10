@@ -472,6 +472,9 @@ jobs:
         echo "EeveeSpotify VT: $VTEEVEE"
         echo "VTEEVEE=$VTEEVEE" >> $GITHUB_ENV
         VTORION=$(echo "$VTORION" | sed 's/.*\(https:\/\/.*\)/\1/')
+        VTEXT=$(echo "$VTEXT" | sed 's/.*\(https:\/\/.*\)/\1/')
+        echo "OpenSpotifySafariExtension VT: $VTEXT"
+        echo "VTEXT=$VTEXT" >> $GITHUB_ENV
         echo "Orion VT: $VTORION"
         echo "VTORION=$VTORION" >> $GITHUB_ENV
         VTSWIFTPROTOBUF=$(echo "$VTSWIFTPROTOBUF" | sed 's/.*\(https:\/\/.*\)/\1/')
@@ -500,7 +503,11 @@ jobs:
         if [ "${{ env.EEVEESPOTIFY_UPDATED }}" = 'true' ]; then
           echo "- Updated [EeveeSpotify](https://github.com/${{ env.EEVEEREPO }}) to version ${{ env.EEVEEVERSIONNAME }} </br>" >> changelog.txt
         fi
+        if [ "${{ env.OPENSPOTIFY_UPDATED }}" = 'true' ]; then
+        echo "- Updated Open in Spotify extension to commit ${{ env.EXTCOMMIT }} </br>" >> changelog.txt
+        fi
         if [ "${{ env.ORIONRUNTIME_UPDATED }}" = 'true' ]; then
+        fi
           echo "- Updated Orion Runtime to version v${{ env.ORIONVERSION }} </br>" >> changelog.txt
         fi
         if [ "${{ env.SWIFTPROTOBUF_UPDATED }}" = 'true' ]; then
@@ -541,6 +548,8 @@ jobs:
         echo "<br><a href='${{ env.VTVANILLASPOTIFY }}'>Vanilla Spotify VirusTotal</a></p>" >> changelog.txt
         echo "<p>EeveeSpotify Version: ${{ env.EEVEEVERSIONNAME }}" >> changelog.txt
         echo "<br><a href='${{ env.VTEEVEE }}'>EeveeSpotify .deb VirusTotal</a></p>" >> changelog.txt
+        echo "<p>OpenSpotifySafariExtension Commit: ${{ env.EXTCOMMIT }}" >> changelog.txt
+        echo "<br><a href='${{ env.VTEXT }}'>OpenSpotifySafariExtension Repo Compressed .zip VirusTotal</a></p>" >> changelog.txt
         echo "<p>Orion Runtime (iOS 14 - 16) Version: ${{ env.ORIONVERSION }}" >> changelog.txt
         echo "<br><a href='${{ env.VTORION }}'>Orion Runtime (iOS 14 - 16) .deb VirusTotal</a></p>" >> changelog.txt
         echo "<p>SwiftProtobuf Framework Version: ${{ env.SWIFTPROTOBUFVERSION }}" >> changelog.txt
@@ -649,6 +658,12 @@ jobs:
                   "version": $EEVEEVERSIONNAME,
                   "authors": "Whoeevee & Asdfzxcvbn",
                   "url": "https://github.com/${{ env.EEVEEREPO }}"
+              },
+              {
+                  "item": "OpenSpotifySafariExtension",
+                  "version": "Commit \($EXTCOMMIT)",
+                  "authors": "Whoeevee",
+                  "url": "https://github.com/whoeevee/OpenSpotifySafariExtension"
               },
               {
                   "item": "Orion Runtime",
