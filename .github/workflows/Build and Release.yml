@@ -623,6 +623,7 @@ jobs:
            --arg VANILLASPOTIFYVERSION "${{ env.VANILLASPOTIFYVERSION }}" \
            --arg MINVERSION "${{ env.MIN_IOS_VERSION }}" \
            --arg EEVEEVERSIONNAME "${{ env.EEVEEVERSIONNAME }}" \
+           --arg EXTCOMMIT "${{ env.EXTCOMMIT }}" \
            --argjson PRIVKEYS "$PRIVACYKEYS" \
            --argjson ENTITLEMENTS "$ENTITLE" \
            --arg ORIONVERSION "${{ env.ORIONVERSION }}" \
