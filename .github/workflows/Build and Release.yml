@@ -264,6 +264,39 @@ jobs:
       if: ${{ env.VT_ENABLED == 'true' }}
       run: echo "VTSWIFTPROTOBUF=${{ steps.vt-swiftprotobuf.outputs.analysis }}" >> $GITHUB_ENV
 
+    - name: Clone OpenSpotifySafariExtension
+      run: git clone https://github.com/whoeevee/OpenSpotifySafariExtension
+    
+    - name: Copy OpenSpotifySafariExtension.appex to Build Components
+      run: |
+        cp -R OpenSpotifySafariExtension/OpenSpotifySafariExtension.appex "Build Components/OpenSpotifySafariExtension.appex"
+        echo "EXTCOMMIT=$(git -C OpenSpotifySafariExtension rev-parse --short HEAD)"
+        echo "EXTCOMMIT=$(git -C OpenSpotifySafariExtension rev-parse --short HEAD)" >> $GITHUB_ENV
+        echo "Extensions Commit is: ${{ env.EXTCOMMIT }}"
+        echo "OSSEXT=Build Components/OpenSpotifySafariExtension.appex" >> $GITHUB_ENV
+    
+    - name: Compress OpenSpotifySafariExtension to zip
+      run: |
+        cd OpenSpotifySafariExtension
+        echo "Compressing:"
+        ls
+        ditto -c -k --sequesterRsrc --keepParent ./ "../Build Components/OpenSpotifySafariExtension.zip"
+    
+    - name: Upload OpenSpotifySafariExtension to VirusTotal
+      if: ${{ env.VT_ENABLED == 'true' }}
+      uses: crazy-max/ghaction-virustotal@v4
+      id: vt-openspotify
+      with:
+        files: "Build Components/OpenSpotifySafariExtension.zip"
+        vt_api_key: ${{ secrets.VIRUSTOTALKEY }}
+        
+    - name: Set VirusTotal Analysis URL for OpenSpotifySafariExtension
+      if: ${{ env.VT_ENABLED == 'true' }}
+      run: |
+        echo "VTEXT=${{ steps.vt-openspotify.outputs.analysis }}" >> $GITHUB_ENV
+        rm -f "Build Components/OpenSpotifySafariExtension.zip"
+
+
     - name: Read Spotify information from vanilla .ipa
       run: |
         cp "${{ env.spotifypath }}" "Build Components/SpotifyAnylises.zip"
@@ -293,6 +326,7 @@ jobs:
         # Fetch previous versions.
         spotify_version=$(echo "$latest_info" | jq -r '.[] | select(.item == "Spotify") | .version')
         eeveespotify_version=$(echo "$latest_info" | jq -r '.[] | select(.item == "EeveeSpotify") | .version')
+        openspotify_version=$(echo "$latest_info" | jq -r '.[] | select(.item == "OpenSpotifySafariExtension") | .version')
         orionruntime_version=$(echo "$latest_info" | jq -r '.[] | select(.item == "Orion Runtime") | .version')
         swiftprotobuf_version=$(echo "$latest_info" | jq -r '.[] | select(.item == "SwiftProtobuf Framework") | .version')
     
@@ -310,6 +344,14 @@ jobs:
           echo "EEVEESPOTIFY_UPDATED=true" >> $GITHUB_ENV
         else
           echo "EEVEESPOTIFY_UPDATED=false" >> $GITHUB_ENV
+        fi
+       
+        # OpenSpotifySafariExtension
+        if [ "$openspotify_version" != "Commit ${{ env.EXTCOMMIT }}" ]; then
+          echo "OpenSpotifySafariExtension version updated from $openspotify_version to Commit ${{ env.EXTCOMMIT }}"
+          echo "OPENSPOTIFY_UPDATED=true" >> $GITHUB_ENV
+        else
+          echo "OPENSPOTIFY_UPDATED=false" >> $GITHUB_ENV
         fi
     
         # Orion Runtime
